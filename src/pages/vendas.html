@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Electronic Store</title>
+    <link rel="stylesheet" href="../style/style.css" />
+
+    <script src="../js/order/index.js" defer type="module"></script>
+  </head>
+
+  <body>
+    <main>
+      <div class="d-flex-col">
+        <form id="create-product" class="w-50">
+          <div class="form-control">
+            <input
+              type="text"
+              id="name"
+              autocomplete="off"
+              placeholder="Nome cliente"
+            />
+          </div>
+          <div class="row">
+            <div class="form-control">
+              <input
+                type="text"
+                id="value"
+                autocomplete="off"
+                placeholder="Valor do Carrinho"
+              />
+            </div>
+            <div class="form-control">
+              <input
+                type="text"
+                id="quantity"
+                autocomplete="off"
+                placeholder="Quantidade de Itens no Carrinho"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+      <h3 style="text-align: center">Pedido</h3>
+      <div class="d-flex table-data">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Preço</th>
+              <th scope="col" style="width: 160px">Quantidade</th>
+              <th scope="col" style="width: 160px">Valor</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyOrder"></tbody>
+        </table>
+      </div>
+      <div class="container text-center">
+        <h1 class="title">Vendas</h1>
+
+        <div class="container-buttons">
+          <div id="btn-create">
+            <a class="btn btn-success" href="createOrder.html">Criar</a>
+          </div>
+          <button class="btn btn-warning events-none" id="btn-update">
+            Atualizar
+          </button>
+          <button class="btn btn-warning events-none" id="btn-cancel">
+            Cancelar
+          </button>
+          <div>
+            <a class="btn btn-blue" href="./vendas.html">Vendas</a>
+          </div>
+        </div>
+
+        <div class="d-flex table-data">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Valor</th>
+                <th scope="col" style="width: 120px">Quantidade</th>
+                <th scope="col" style="width: 120px">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div id="notfound"></div>
+      </div>
+    </main>
+
+    <div id="modal-delete" class="modal none">
+      <div>
+        <span class="exit">X</span>
+        <div>
+          <h3>Deseja deletar o item:</h3>
+          <p>id: <span data-key=""></span></p>
+          <p>Nome: <span data-key=""></span></p>
+        </div>
+        <div class="d-flex-end">
+          <button id="delete" class="btn btn-success">Ok</button>
+          <button id="close-modal" class="btn btn-warning">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal-message" class="modal none">
+      <div>
+        <span class="exit">X</span>
+        <div>
+          <p id="message"></p>
+        </div>
+
+        <div class="d-flex-end">
+          <button class="btn btn-success">Ok</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Electronic Store</title>
+    <link rel="stylesheet" href="style/style.css" />
+
+    <script src="js/product/index.js" defer type="module"></script>
+  </head>
+
+  <body>
+    <main>
+      <div class="container text-center">
+        <h1 class="title">Electronic Store</h1>
+        <div class="d-flex">
+          <form id="create-product" class="w-50">
+            <div class="form-control">
+              <input type="text" id="id" autocomplete="off" placeholder="ID" />
+            </div>
+            <div class="form-control">
+              <input
+                type="text"
+                id="name"
+                autocomplete="off"
+                placeholder="Name Produto"
+              />
+            </div>
+            <div class="row">
+              <div class="form-control">
+                <input
+                  type="text"
+                  id="price"
+                  autocomplete="off"
+                  placeholder="Preço"
+                />
+              </div>
+              <div class="form-control">
+                <input
+                  type="text"
+                  id="stock"
+                  class="form-control m-0"
+                  autocomplete="off"
+                  placeholder="Estoque"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="container-buttons">
+          <button class="btn btn-success" id="btn-create">Criar</button>
+          <button class="btn btn-warning events-none" id="btn-update">
+            Atualizar
+          </button>
+          <button class="btn btn-success events-none" id="btn-cancel">
+            Cancelar
+          </button>
+          <div id="btn-sales">
+            <a class="btn btn-blue" href="./pages/vendas.html">Vendas</a>
+          </div>
+        </div>
+
+        <!--  Table -->
+        <div class="d-flex table-data">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th style="width: 120px">Estoque</th>
+                <th style="width: 120px">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div id="notfound"></div>
+      </div>
+    </main>
+
+    <div id="modal-delete" class="modal none">
+      <div>
+        <span class="exit">X</span>
+        <div>
+          <h3>Deseja deletar o item:</h3>
+          <p>id: <span data-key=""></span></p>
+          <p>Nome: <span data-key=""></span></p>
+        </div>
+        <div class="d-flex-end">
+          <button id="delete" class="btn btn-success">Ok</button>
+          <button id="close-modal" class="btn btn-warning">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal-message" class="modal none">
+      <div>
+        <span class="exit">X</span>
+        <div>
+          <p id="message"></p>
+        </div>
+
+        <div class="d-flex-end">
+          <button class="btn btn-success">Ok</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

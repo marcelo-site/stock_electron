@@ -1,0 +1,277 @@
+body {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
+
+.title {
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+form {
+  width: 600px;
+  padding: 10px;
+}
+
+.d-block {
+  display: block;
+}
+
+.container {
+  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+
+.form-control {
+  display: flex;
+}
+
+.form-control input {
+  margin: 0.5em 0em;
+  width: 100%;
+  font-size: 18px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: 1px solid #aeaeae;
+}
+
+.row .form-control {
+  flex: 1;
+}
+
+.d-flex {
+  display: flex;
+  justify-content: center;
+}
+.d-flex-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.d-flex-end {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 6px 12px;
+}
+
+a.btn {
+  text-decoration: none;
+  color: white;
+}
+
+.container-buttons {
+  margin: 1rem 0;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  gap: 1rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+.container-buttons .btn {
+  min-width: 150px;
+}
+
+.container-actions {
+  width: 150px;
+  gap: 5px;
+}
+
+.container-actions div {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-actions .btn {
+  width: 60px;
+}
+
+.btn-success {
+  color: white;
+  background-color: green;
+}
+
+.btn-warning {
+  color: #212529;
+  background-color: #ffc107;
+}
+.btn-warning {
+  color: #212529;
+  background-color: #ffc107;
+}
+
+.btn-blue {
+  color: #fff;
+  background-color: #0909cc;
+  border-color: #0909cc;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+table .btnedit {
+  color: lightgreen;
+  cursor: pointer;
+}
+
+table .btndelete {
+  color: tomato;
+  cursor: pointer;
+}
+
+table {
+  width: 800px;
+  margin: 1rem auto;
+}
+
+.table button {
+  display: inline-flex;
+}
+
+table,
+tr,
+td,
+th {
+  border-collapse: collapse;
+  border: 1px solid black;
+  text-align: center;
+}
+
+td,
+th {
+  padding: 4px 8px;
+}
+
+/* messages */
+.updatemsg,
+.deletemsg,
+.insertmsg {
+  position: absolute;
+  top: -40px;
+}
+
+.movedown {
+  animation: slideup 3.4s ease;
+}
+
+@keyframes slideup {
+  50% {
+    top: 0;
+  }
+
+  100% {
+    top: -40px;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 99999999999;
+  font-size: 1.25em;
+  padding: 1rem;
+}
+
+.none {
+  display: none !important;
+}
+
+.modal > div {
+  background-color: white;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.modal .exit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  background-color: red;
+  color: white;
+}
+.modal > div > div {
+  padding: 0.5rem;
+}
+
+.events-none {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+#products {
+  display: block;
+}
+
+#products > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#products input {
+  width: 50px;
+}
+
+.quantity {
+  font-size: 1.25rem;
+  width: 50px;
+  border: none;
+  outline: none;
+  text-align: center;
+}
+
+.control-quantity {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  background-color: black;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 19px;
+  font-weight: bold;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}

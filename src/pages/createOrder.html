@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- <meta name="viewport" content="width=[device-width], initial-scale=1.0" /> -->
+    <title>Document</title>
+    <link rel="stylesheet" href="../style/style.css" />
+    <script src="../js/createOrder/index.js" defer type="module"></script>
+  </head>
+  <body>
+    <div class="d-flex-col">
+      <form id="create-product" class="w-50">
+        <div class="form-control">
+          <input
+            type="text"
+            id="name"
+            autocomplete="off"
+            placeholder="Nome cliente"
+          />
+        </div>
+        <div class="row">
+          <div class="form-control">
+            <input
+              type="text"
+              id="value"
+              autocomplete="off"
+              placeholder="Valor do Carrinho"
+            />
+          </div>
+          <div class="form-control">
+            <input
+              type="text"
+              id="quantity"
+              autocomplete="off"
+              placeholder="Quantidade de Itens no Carrinho"
+            />
+          </div>
+        </div>
+        <div id="products" class="form-control">
+          <!-- <input type="text" name="product" id="" /> -->
+        </div>
+      </form>
+    </div>
+    <h3 style="text-align: center">Carrinho</h3>
+    <div class="d-flex table-data">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Preço</th>
+            <th scope="col" style="width: 120px">Quantidade</th>
+            <th scope="col" style="width: 120px">Valor</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyOrder"></tbody>
+      </table>
+    </div>
+    <div style="justify-content: space-between" class="container-buttons">
+      <button id="btn-create" style="margin-top: 2rem" class="btn btn-success">
+        Cadastrar
+      </button>
+    </div>
+
+    <h3 style="text-align: center">Produtos</h3>
+
+    <div class="d-flex table-data">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Preço</th>
+            <th scope="col">Estoque</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+
+    <div id="modal-delete" class="modal none">
+      <div>
+        <div>
+          <h3>Deseja deletar o item:</h3>
+          <p>id: <span data-key=""></span></p>
+          <p>Nome: <span data-key=""></span></p>
+        </div>
+        <div class="d-flex-end">
+          <button id="delete" class="btn btn-success">Ok</button>
+          <button id="close-modal" class="btn btn-warning">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal-message" class="modal none">
+      <div>
+        <div>
+          <p id="message"></p>
+        </div>
+
+        <div class="d-flex-end">
+          <button class="btn btn-success">Ok</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
