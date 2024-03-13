@@ -1,30 +1,26 @@
-// import { controlModal } from "./modal.js";
+import {
+  createElementSimple,
+  appendElement,
+  createInput,
+} from "../utils/Element.js";
+import { formatPrice } from "../utils/formatPrice.js";
+
+import { controlModal } from "./modal.js";
 const tbody = document.querySelector("#tbody");
 
 export const displayTrProducts = (data, addProduct) => {
   const tr = document.createElement("tr");
 
-  const idTd = document.createElement("td");
-  idTd.innerHTML = data.id;
-  tr.appendChild(idTd);
+  appendElement(tr, "td", data.id);
+  appendElement(tr, "td", data.name);
+  appendElement(tr, "td", formatPrice(1, data.price));
+  appendElement(tr, "td", data.stock);
 
-  const nameTd = document.createElement("td");
-  nameTd.innerHTML = data.name;
-  tr.appendChild(nameTd);
+  const button = createElementSimple("button", "Adicionar", [
+    "btn",
+    "btn-success",
+  ]);
 
-  const priceTd = document.createElement("td");
-  priceTd.innerHTML = data.price;
-  tr.appendChild(priceTd);
-
-  const stockTd = document.createElement("td");
-  stockTd.innerHTML = data.stock;
-  tr.appendChild(stockTd);
-
-  const button = document.createElement("button");
-  button.classList.add("btn");
-  button.classList.add("btn-success");
-  button.style.padding = "4px 8px";
-  button.innerHTML = "Adicionar";
   button.setAttribute("data-id", data.id);
   button.setAttribute("data-name", data.name);
   button.setAttribute("data-price", data.price);
@@ -37,75 +33,40 @@ export const displayTrProducts = (data, addProduct) => {
   return tr;
 };
 
-// export const displayTableProducts = (db, dbName, storeName, addProduct) => {
-//   tbody.innerHTML = "";
-
-//   if (window.indexedDB) {
-//     const request = window.indexedDB.open(dbName, 1);
-
-//     request.onerror = (e) => {
-//       console.log("Error request", e);
-//       db = e.target.result;
-//     };
-
-//     request.onsuccess = (e) => {
-//       db = e.target.result;
-
-//       let transactionDisplay = db.transaction(storeName);
-//       let objectStore = transactionDisplay.objectStore(storeName);
-
-//       objectStore.openCursor().onsuccess = (event) => {
-//         const cursor = event.target.result;
-
-//         if (cursor) {
-//           const tr = displayTrProducts(cursor.value, addProduct);
-//           tbody.appendChild(tr);
-
-//           cursor.continue();
-//         }
-//       };
-//     };
-
-//     request.onupgradeneeded = (e) => {
-//       createDB(db, storeName, e);
-//       console.log(e);
-//     };
-//   } else {
-//     console.log("You don't have support");
-//   }
-// };
-
 export const displayTableOrder = () => {
   const tr = document.createElement("tr");
 
-  const idTd = document.createElement("td");
-  idTd.innerHTML = data.id;
-  tr.appendChild(idTd);
+  appendElement(tr, "td", data.id);
+  appendElement(tr, "td", data.name);
+  appendElement(tr, "td", data.price);
 
-  const nameTd = document.createElement("td");
-  nameTd.innerHTML = data.name;
-  tr.appendChild(nameTd);
-
-  const priceTd = document.createElement("td");
-  priceTd.innerHTML = data.price;
-  tr.appendChild(priceTd);
-
-  const inputHidden = document.createElement("input");
-  inputHidden.type = "hidden";
-  inputHidden.value = data.id;
-  inputHidden.name = "product";
+  const inputHidden = createInput("product", data.id, "hidden", 1);
   tr.appendChild(inputHidden);
 
   const inputTD = document.createElement("td");
   inputTD.style.padding = 0;
-  const input = document.createElement("input");
-  input.classList.add("quantity");
-  input.min = 1;
-  input.value = 1;
-  input.name = "quantity";
-  input.type = "number";
+  const input = createInput("quantity", 1, "number", 1, data.stock, "quantity");
 
   inputTD.appendChild(input);
+
+  const deleteButton = document.createElement("img");
+  deleteButton.src = "../../icons/trash.svg";
+  deleteButton.style.color = "red";
+  deleteButton.setAttribute("data-id", data.id);
+  deleteButton.addEventListener("click", controlModal);
+  const div = document.createElement("div");
+  div.appendChild(deleteButton);
+
+  // const deleteButton = document.createElement("img");
+  // deleteButton.src = "./icons/trash.svg";
+  // deleteButton.style.color = "red";
+  // deleteButton.setAttribute("data-id", data.id);
+  // deleteButton.addEventListener("click", controlModal);
+  // div.appendChild(deleteButton);
+
+  const tdAction = document.createElement("td");
+  tdAction.appendChild(div);
+  tr.appendChild(tdAction);
 
   tr.appendChild(inputTD);
   return tr;

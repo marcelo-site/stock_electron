@@ -1,5 +1,5 @@
 import { emptyValue } from "./inputsData.js";
-// import { controlModalMessage } from "./modal.js";
+import { btnDelete } from "./modal.js";
 import { displayTrProducts } from "./displayTable.js";
 import { getInputValue } from "./inputsData.js";
 import { addData } from "./addData.js";
@@ -9,6 +9,7 @@ import { objStoreProduct, openDbProduct } from "../utils/objectStoreData.js";
 
 const tbodyOrder = document.querySelector("#tbodyOrder");
 let db;
+let listButton = [];
 
 const addProduct = (e) => {
   const data = {
@@ -47,6 +48,8 @@ const initialize = () => {
 
           cursor.continue();
         }
+        listButton = Array.from(tbody.querySelectorAll("tr td button"));
+        console.log(listButton[0]);
       };
     };
 
@@ -58,10 +61,24 @@ const initialize = () => {
   }
 };
 
+const deleteProductCart = (e) => {
+  const id = e.target.getAttribute("data-id");
+  const trAll = tbodyOrder.querySelectorAll(`tr`);
+  const tr = Array.from(trAll).filter(
+    (item) => item.getAttribute("data-id") === id
+  );
+  tbodyOrder.removeChild(tr[0]);
+  listButton
+    .filter((button) => button.getAttribute("data-id") === id)[0]
+    .classList.remove("events-none");
+};
+
+btnDelete.addEventListener("click", deleteProductCart);
+
 document.querySelector("#btn-create").addEventListener("click", () => {
   const data = getInputValue();
   tbody.innerHTML = "";
-  emptyValue();
+  // emptyValue();
   addData(db, data, initialize);
 });
 

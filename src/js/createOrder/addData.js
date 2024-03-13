@@ -1,5 +1,5 @@
 import { emptyValue } from "../order/inputsData.js";
-import { controlModalMessage } from "../order/modal.js";
+import { controlModalMessage } from "./modal.js";
 import { createDBProduct } from "../utils/createDBProduct.js";
 import { createDBOrders } from "../utils/createDBOrder.js";
 
@@ -20,7 +20,7 @@ export const addData = (db, data, display) => {
 
       req.onsuccess = () => {
         connectDbProduct(data.products);
-        emptyValue();
+        // emptyValue();
       };
 
       transaction.oncomplete = (event) => {
@@ -50,11 +50,11 @@ const onUpdate = (db, data) => {
 
   request.onsuccess = (e) => {
     const product = e.target.result;
-    product.stock = product.stock - data.quantity;
+    product.stock = Number(product.stock) - Number(data.quantity);
     const updateRequest = objectStore.put(product);
 
     updateRequest.onsuccess = () => {
-      emptyValue();
+      // emptyValue();
     };
   };
 

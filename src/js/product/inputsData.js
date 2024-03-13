@@ -21,7 +21,7 @@ export const getInputValue = (readonly) => {
     id: idProdcut.value,
     name: nameProduct.value,
     price: priceProduct.value,
-    stock: stockProduct.value,
+    stock: +stockProduct.value,
   };
 };
 

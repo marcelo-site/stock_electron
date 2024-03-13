@@ -1,4 +1,6 @@
 import { formatPrice } from "../utils/formatPrice.js";
+import { appendElement, createElementSimple } from "../utils/Element.js";
+import { controlModal } from "./modal.js";
 
 const quantityInput = document.querySelector("#quantity");
 const valueInput = document.querySelector("#value");
@@ -30,18 +32,14 @@ const controlQty = (e, el, n, td, price) => {
 
 export const trOrder = (data) => {
   const tr = document.createElement("tr");
+  tr.setAttribute("data-id", data.id);
 
-  const idTd = document.createElement("td");
-  idTd.innerHTML = data.id;
-  tr.appendChild(idTd);
+  const tdId = createElementSimple("td", data.id);
+  // tdId.setAttribute("data-id", data.id);
+  tr.appendChild(tdId);
 
-  const nameTd = document.createElement("td");
-  nameTd.innerHTML = data.name;
-  tr.appendChild(nameTd);
-
-  const priceTd = document.createElement("td");
-  priceTd.innerHTML = data.price;
-  tr.appendChild(priceTd);
+  appendElement(tr, "td", data.name);
+  appendElement(tr, "td", data.price);
 
   const inputHidden = document.createElement("input");
   inputHidden.type = "hidden";
@@ -51,10 +49,10 @@ export const trOrder = (data) => {
 
   const inputTD = document.createElement("td");
   inputTD.style.padding = 0;
-  const buttonMinor = document.createElement("button");
 
+  const buttonMinor = createElementSimple("button", "-");
   buttonMinor.classList.add("control-quantity");
-  buttonMinor.innerHTML = "-";
+
   inputTD.appendChild(buttonMinor);
 
   const input = document.createElement("input");
@@ -72,16 +70,16 @@ export const trOrder = (data) => {
   valueArr.push(+input.value * Number(data.price.replace(",", ".")));
   valueInput.value = reduce(valueArr, 2);
 
-  const buttonPlus = document.createElement("button");
+  const buttonPlus = createElementSimple("button", "+");
   buttonPlus.classList.add("control-quantity");
-  buttonPlus.innerHTML = "+";
 
   inputTD.appendChild(buttonPlus);
 
   tr.appendChild(inputTD);
 
-  const valueTd = document.createElement("td");
-  valueTd.innerHTML = formatPrice(input.value, data.price);
+  const value = formatPrice(input.value, data.price);
+  const valueTd = createElementSimple("td", value);
+  tr.appendChild(valueTd);
 
   buttonMinor.setAttribute("data-index", quantityArr.length - 1);
   buttonMinor.addEventListener("click", (e) =>
@@ -93,7 +91,17 @@ export const trOrder = (data) => {
     controlQty(e, input, 1, valueTd, data.price)
   );
 
-  tr.appendChild(valueTd);
+  const buttonAction = document.createElement("button");
+  buttonAction.classList.add("back-none");
+  buttonAction.setAttribute("data-id", data.id);
+  buttonAction.addEventListener("click", controlModal);
+  const imgtrash = document.createElement("img");
+  imgtrash.src = "../icons/trash.svg";
+  buttonAction.appendChild(imgtrash);
+
+  const actionTd = document.createElement("td");
+  actionTd.appendChild(buttonAction);
+  tr.appendChild(actionTd);
 
   return tr;
 };

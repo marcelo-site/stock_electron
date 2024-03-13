@@ -6,6 +6,7 @@ import { actionsButton } from "./actionsButton.js";
 import { objStoreProduct, openDbProduct } from "../utils/objectStoreData.js";
 import { storeNameOrders } from "../utils/createDBOrder.js";
 import { createDBProduct } from "../utils/createDBProduct.js";
+import { _uuid } from "../utils/uuid.js";
 
 let db;
 
@@ -32,11 +33,13 @@ const initialize = () => {
 const onRemoveItem = (e) => {
   const key = e.target.getAttribute("data-id");
   if (key) {
-    const transaction = db.transaction([storeName], "readwrite");
     const objectStore = objStoreProduct(db);
     const request = objectStore.delete(key);
 
-    transaction.oncomplete = (e) => displayData(db, getEdit, storeNameOrders);
+    request.oncomplete = (e) => {
+      displayData(db, getEdit, storeNameOrders);
+      initialize();
+    };
   }
 };
 
@@ -81,8 +84,13 @@ const onUpdate = () => {
 
 document.querySelector("#btn-create").addEventListener("click", () => {
   addData(db, getInputValue(), () => displayData(db, getEdit));
+  initialize();
 });
 
 document.querySelector("#btn-update").addEventListener("click", onUpdate);
+
+document.querySelector("#uuid").addEventListener("click", () => {
+  document.querySelector("#id").value = _uuid.generate();
+});
 
 document.addEventListener("DOMContentLoaded", initialize);

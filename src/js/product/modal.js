@@ -1,6 +1,7 @@
 const modalDelete = document.querySelector("#modal-delete");
 const btnDelete = document.querySelector("#delete");
 const modalMessage = document.querySelector("#modal-message");
+console.log(btnDelete);
 
 const KeyEl = document.querySelector("[data-key]");
 
@@ -15,7 +16,6 @@ export const controlModal = (e) => {
     KeyEl.innerHTML = "";
     btnDelete.removeAttribute("data-id");
   }
-  console.log("modal");
   modalDelete.classList.toggle("none");
 };
 

@@ -12,11 +12,15 @@
 
   <body>
     <main>
+      <nav>
+        <a class="btn btn-dark" href="/src/index.html">Home</a>
+        <a class="btn btn-dark" href="/src/pages/vendas.html">Vendas</a>
+      </nav>
       <div class="container text-center">
-        <h1 class="title">Electronic Store</h1>
         <div class="d-flex">
           <form id="create-product" class="w-50">
-            <div class="form-control">
+            <div style="position: relative" class="form-control">
+              <button id="uuid" type="button">Gerar ID</button>
               <input type="text" id="id" autocomplete="off" placeholder="ID" />
             </div>
             <div class="form-control">
@@ -49,19 +53,15 @@
           </form>
         </div>
         <div class="container-buttons">
-          <button class="btn btn-success" id="btn-create">Criar</button>
+          <button class="btn btn-success" id="btn-create">Cadastrar</button>
           <button class="btn btn-warning events-none" id="btn-update">
             Atualizar
           </button>
           <button class="btn btn-success events-none" id="btn-cancel">
             Cancelar
           </button>
-          <div id="btn-sales">
-            <a class="btn btn-blue" href="./pages/vendas.html">Vendas</a>
-          </div>
         </div>
 
-        <!--  Table -->
         <div class="d-flex table-data">
           <table class="table table-striped">
             <thead>
@@ -70,7 +70,7 @@
                 <th>Nome</th>
                 <th>Preço</th>
                 <th style="width: 120px">Estoque</th>
-                <th style="width: 120px">Actions</th>
+                <th style="width: 120px">Ações</th>
               </tr>
             </thead>
             <tbody id="tbody"></tbody>
@@ -86,7 +86,6 @@
         <div>
           <h3>Deseja deletar o item:</h3>
           <p>id: <span data-key=""></span></p>
-          <p>Nome: <span data-key=""></span></p>
         </div>
         <div class="d-flex-end">
           <button id="delete" class="btn btn-success">Ok</button>

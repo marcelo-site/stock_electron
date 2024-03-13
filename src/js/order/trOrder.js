@@ -1,10 +1,17 @@
+import {
+  appendElement,
+  createElementSimple,
+  createInput,
+} from "../utils/Element.js";
 import { formatPrice } from "../utils/formatPrice.js";
+import { controlModal, controlModalDeleteOrder } from "./modal.js";
 
 const quantityInput = document.querySelector("#quantity");
 const valueInput = document.querySelector("#value");
 
-let valueArr = [];
-let quantityArr = [];
+export let valueArr = [];
+export let quantityArr = [];
+export let dataInit = [];
 
 const reduce = (value, fixed) =>
   value.reduce((acc, curr) => acc + curr, 0).toFixed(fixed);
@@ -12,46 +19,46 @@ const reduce = (value, fixed) =>
 const multiply = (mult, price) =>
   Number(mult) * Number(price.replace(",", "."));
 
-const controlQty = (e, el, n, td, price) => {
+const controlQty = (e, el, sum, td, price) => {
   const index = e.target.getAttribute("data-index");
   let value = +el.value;
   const min = +el.min;
   const max = +el.max;
 
-  if ((n < 0 && value > 1) || (n > 0) & (value < max)) {
-    el.value = value + n;
-    td.innerHTML = formatPrice(value + n, price);
-    valueArr[+index] = multiply(value + n, price);
-    quantityArr[+index] = value + n;
+  if ((sum < 0 && value > 1) || (sum > 0) & (value < max)) {
+    const valueAt = value + sum;
+
+    el.value = valueAt;
+    td.innerHTML = formatPrice(valueAt, price);
+    valueArr[+index] = multiply(valueAt, price);
+    quantityArr[+index] = valueAt;
+    dataInit[+index].currenty = valueAt;
+    console.log(dataInit);
     quantityInput.value = reduce(quantityArr, 0);
     valueInput.value = reduce(valueArr, 2);
   }
 };
 
 export const trOrder = (data) => {
-  // console.log(data);
+  dataInit.push({
+    product: data.data.products[0].productId,
+    init: +data.data.products[0].quantity,
+    currenty: 0,
+  });
+  // dataEnd.push(data.data.products[0]);
+
   const product = data.data.products.filter(
     (item) => item.productId === data.id
   )[0];
-  console.log(product);
+
   const tr = document.createElement("tr");
+  tr.setAttribute("data-id", data.id);
 
-  const idTd = document.createElement("td");
-  idTd.innerHTML = data.id;
-  tr.appendChild(idTd);
+  appendElement(tr, "td", data.id);
+  appendElement(tr, "td", data.name);
+  appendElement(tr, "td", formatPrice(1, data.price));
 
-  const nameTd = document.createElement("td");
-  nameTd.innerHTML = data.name;
-  tr.appendChild(nameTd);
-
-  const priceTd = document.createElement("td");
-  priceTd.innerHTML = data.price;
-  tr.appendChild(priceTd);
-
-  const inputHidden = document.createElement("input");
-  inputHidden.type = "hidden";
-  inputHidden.value = data.id;
-  inputHidden.name = "product";
+  const inputHidden = createInput("product", data.id, "hidden");
   tr.appendChild(inputHidden);
 
   const inputTD = document.createElement("td");
@@ -62,19 +69,19 @@ export const trOrder = (data) => {
   buttonMinor.innerHTML = "-";
   inputTD.appendChild(buttonMinor);
 
-  const input = document.createElement("input");
-
-  input.classList.add("quantity");
-  input.min = 1;
-  input.max = data.stock;
-  input.value = product.quantity;
-  input.name = "quantity";
-  input.type = "number";
+  const input = createInput(
+    "quantity",
+    product.quantity,
+    "number",
+    1,
+    data.stock,
+    "quantity"
+  );
   inputTD.appendChild(input);
 
-  quantityArr.push(+input.value);
+  quantityArr.push(+product.quantity);
   quantityInput.value = reduce(quantityArr, 0);
-  valueArr.push(+input.value * Number(data.price.replace(",", ".")));
+  valueArr.push(+product.quantity * Number(data.price.replace(",", ".")));
   valueInput.value = reduce(valueArr, 2);
 
   const buttonPlus = document.createElement("button");
@@ -85,12 +92,16 @@ export const trOrder = (data) => {
 
   tr.appendChild(inputTD);
 
-  const valueTd = document.createElement("td");
-  valueTd.innerHTML = formatPrice(input.value, data.price);
+  const valueTd = createElementSimple(
+    "td",
+    formatPrice(input.value, data.price)
+  );
+
+  tr.appendChild(valueTd);
 
   buttonMinor.setAttribute("data-index", quantityArr.length - 1);
   buttonMinor.addEventListener("click", (e) =>
-    controlQty(e, input, -1, valueTd, data.price, quantityArr.length - 1)
+    controlQty(e, input, -1, valueTd, data.price)
   );
 
   buttonPlus.setAttribute("data-index", quantityArr.length - 1);
@@ -98,7 +109,22 @@ export const trOrder = (data) => {
     controlQty(e, input, 1, valueTd, data.price)
   );
 
-  tr.appendChild(valueTd);
+  const buttonAction = document.createElement("button");
+  buttonAction.classList.add("back-none");
+  buttonAction.setAttribute("data-id", data.id);
+  buttonAction.addEventListener("click", controlModalDeleteOrder);
+  const imgtrash = document.createElement("img");
+  imgtrash.src = "../icons/trash.svg";
+  buttonAction.appendChild(imgtrash);
+
+  const actionTd = document.createElement("td");
+  actionTd.appendChild(buttonAction);
+  tr.appendChild(actionTd);
 
   return tr;
 };
+
+// export const addTableOrder = (dataTable) => {
+
+//   return;
+// };

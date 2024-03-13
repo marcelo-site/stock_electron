@@ -1,7 +1,7 @@
 const nameClient = document.querySelector("#name");
 const valueOder = document.querySelector("#value");
 const quantityOrder = document.querySelector("#quantity");
-const productsContainer = document.querySelector("#products");
+// const productsContainer = document.querySelector("#products");
 const tbodyOrder = document.querySelector("#tbodyOrder");
 
 export const emptyValue = () => {
@@ -31,11 +31,11 @@ export const setValueInput = (data) => {
   nameClient.value = data.name;
   valueOder.value = data.value;
   quantityOrder.value = data.quantity;
-  data.products.map((item) => {
-    const input = document.createElement("input");
-    input.value = item;
-    productsContainer.appendChild(input);
-  });
+  // data.products.map((item) => {
+  //   const input = document.createElement("input");
+  //   input.value = item;
+  //   productsContainer.appendChild(input);
+  // });
 };
 
-export { productsContainer };
+// export { productsContainer };

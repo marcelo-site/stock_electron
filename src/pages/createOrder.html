@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- <meta name="viewport" content="width=[device-width], initial-scale=1.0" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="../style/style.css" />
     <script src="../js/createOrder/index.js" defer type="module"></script>
@@ -33,6 +33,7 @@
               id="quantity"
               autocomplete="off"
               placeholder="Quantidade de Itens no Carrinho"
+              readonly
             />
           </div>
         </div>
@@ -51,6 +52,7 @@
             <th scope="col">Preço</th>
             <th scope="col" style="width: 120px">Quantidade</th>
             <th scope="col" style="width: 120px">Valor</th>
+            <th scope="col" style="width: 120px">Actions</th>
           </tr>
         </thead>
         <tbody id="tbodyOrder"></tbody>
@@ -83,11 +85,10 @@
       <div>
         <div>
           <h3>Deseja deletar o item:</h3>
-          <p>id: <span data-key=""></span></p>
-          <p>Nome: <span data-key=""></span></p>
+          <p>ID: <span data-key=""></span></p>
         </div>
         <div class="d-flex-end">
-          <button id="delete" class="btn btn-success">Ok</button>
+          <button id="delete" class="btn btn-success" data-id="">Ok</button>
           <button id="close-modal" class="btn btn-warning">Cancelar</button>
         </div>
       </div>

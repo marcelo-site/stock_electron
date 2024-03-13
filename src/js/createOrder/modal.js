@@ -1,5 +1,5 @@
 const modalDelete = document.querySelector("#modal-delete");
-const btnDelete = document.querySelector("#delete");
+let btnDelete = document.querySelector("#delete");
 const modalMessage = document.querySelector("#modal-message");
 
 const KeyEl = document.querySelector("[data-key]");
@@ -7,15 +7,13 @@ const KeyEl = document.querySelector("[data-key]");
 export const controlModal = (e) => {
   if (e) {
     const key = e.target.getAttribute("data-id");
-    if (key) {
-      KeyEl.innerHTML = key;
-      btnDelete.setAttribute("data-id", key);
-    }
-  } else {
-    KeyEl.innerHTML = "";
-    btnDelete.removeAttribute("data-id");
+    KeyEl.innerHTML = key;
+    btnDelete.setAttribute("data-id", key);
   }
-
+  // else {
+  //   // KeyEl.innerHTML = "";
+  //   // btnDelete.removeAttribute("data-id");
+  // }
   modalDelete.classList.toggle("none");
 };
 
@@ -30,5 +28,4 @@ export const controlModalMessage = (message) => {
 };
 
 modalMessage.addEventListener("click", () => controlModalMessage());
-
 export { btnDelete };

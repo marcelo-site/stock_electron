@@ -1,37 +1,28 @@
 import { objStoreProduct } from "../utils/objectStoreData.js";
 import { controlModal } from "./modal.js";
+import { formatPrice } from "../utils/formatPrice.js";
+import { createElementSimple, appendElement } from "../utils/Element.js";
 const tbody = document.querySelector("#tbody");
 
-const displayTable = (cursor, getEdit) => {
+const displayTable = (data, getEdit) => {
   const tr = document.createElement("tr");
 
-  const idTd = document.createElement("td");
-  idTd.innerHTML = cursor.value.id;
-  tr.appendChild(idTd);
-
-  const nameTd = document.createElement("td");
-  nameTd.innerHTML = cursor.value.name;
-  tr.appendChild(nameTd);
-
-  const priceTd = document.createElement("td");
-  priceTd.innerHTML = cursor.value.price;
-  tr.appendChild(priceTd);
-
-  const stockTd = document.createElement("td");
-  stockTd.innerHTML = cursor.value.stock;
-  tr.appendChild(stockTd);
+  appendElement(tr, "td", data.id);
+  appendElement(tr, "td", data.name);
+  appendElement(tr, "td", formatPrice(1, data.price));
+  appendElement(tr, "td", data.stock);
 
   const div = document.createElement("div");
   const editButton = document.createElement("img");
   editButton.src = "./icons/pencil.svg";
-  editButton.setAttribute("data-id", cursor.value.id);
+  editButton.setAttribute("data-id", data.id);
   editButton.addEventListener("click", getEdit);
   div.appendChild(editButton);
 
   const deleteButton = document.createElement("img");
   deleteButton.src = "./icons/trash.svg";
   deleteButton.style.color = "red";
-  deleteButton.setAttribute("data-id", cursor.value.id);
+  deleteButton.setAttribute("data-id", data.id);
   deleteButton.addEventListener("click", controlModal);
   div.appendChild(deleteButton);
 
@@ -52,7 +43,7 @@ export const displayData = (db, getEdit) => {
     const cursor = event.target.result;
 
     if (cursor) {
-      const tr = displayTable(cursor, getEdit);
+      const tr = displayTable(cursor.value, getEdit);
       tbody.appendChild(tr);
 
       cursor.continue();

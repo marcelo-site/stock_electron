@@ -9,10 +9,19 @@ import {
   openDbProduct,
 } from "../utils/objectStoreData.js";
 import { createDBOrders } from "../utils/createDBOrder.js";
-import { trOrder } from "./trOrder.js";
+import { trOrder, quantityArr, valueArr, dataInit } from "./trOrder.js";
 
-const tbodyOrder = document.querySelector("#tbodyOrder");
+export const tbodyOrder = document.querySelector("#tbodyOrder");
+
 let db;
+const containerOrder = document.querySelector("#container-order");
+
+const changeVisibleOrder = (visible) => {
+  if (visible) containerOrder.classList.remove("none");
+  else containerOrder.classList.add("none");
+};
+
+changeVisibleOrder(false);
 
 const initialize = () => {
   if (window.indexedDB) {
@@ -37,10 +46,10 @@ const initialize = () => {
 const onRemoveItem = (e) => {
   const key = e.target.getAttribute("data-id");
   if (key) {
-    const objectStore = objStoreProduct(db);
+    const objectStore = objStoreOrders(db);
     const request = objectStore.delete(+key);
 
-    transaction.oncomplete = (e) => displayData(db, getEdit);
+    request.onsuccess = (e) => displayData(db, getEdit);
   }
 };
 
@@ -58,6 +67,12 @@ const addProduct = (data) => {
 
     request.onsuccess = (e) => {
       const objectStore = objStoreProduct(e);
+
+      // limpar array para calculo de valor e quantidade
+      valueArr.splice(0, valueArr.length);
+      quantityArr.splice(0, quantityArr.length);
+      dataInit.splice(0, dataInit.length);
+      //
 
       data.products.map((item) => {
         const key = item.productId;
@@ -78,6 +93,7 @@ const addProduct = (data) => {
 };
 
 const getEdit = (e) => {
+  changeVisibleOrder(true);
   const objectStore = objStoreOrders(db);
 
   const key = e.target.getAttribute("data-id");
@@ -94,30 +110,62 @@ const getEdit = (e) => {
   request.onerror = (e) => console.log(e);
 };
 
+const getEditProduct = (dbPrduct, data, updateStock) => {
+  const objectStore = objStoreProduct(dbPrduct);
+
+  const key = data.productId;
+  const request = objectStore.get(key);
+
+  request.onsuccess = (event) => {
+    actionsButton(false);
+    const newProduct = event.target.result;
+    newProduct.stock = newProduct.stock + updateStock;
+    const updateRequest = objectStore.put(newProduct);
+    const result = event.target.result;
+    setValueInput(result);
+  };
+
+  request.onerror = (e) => console.log(e);
+};
+
 const onUpdate = () => {
+  changeVisibleOrder(false);
   const objectStore = objStoreOrders(db);
 
-  const newProduct = getInputValue();
-  const request = objectStore.get(newProduct.id);
+  const newOrder = getInputValue();
+  const request = objectStore.get(+newOrder.id);
 
   request.onsuccess = (e) => {
     const product = e.target.result;
-    // actionsButton(false);
-    const updateRequest = objectStore.put(newProduct);
-
+    actionsButton(false);
+    const updateRequest = objectStore.put(newOrder);
     updateRequest.onsuccess = () => {
-      emptyValue();
-      displayData(db, getEdit);
+      const dbProduct = openDbProduct();
+
+      dbProduct.onsuccess = (e) => {
+        emptyValue();
+        const data = e.target.result;
+
+        newOrder.products.map((item, i) => {
+          const n = Number(dataInit[i].init) - Number(dataInit[i].currenty);
+          getEditProduct(e.target.result, item, n);
+        });
+        displayData(db, getEdit);
+      };
     };
   };
   request.onerror = (e) => console.log(e);
 };
 
-// document.querySelector("#btn-create").addEventListener("click", () => {
-//   addData(db, getInputValue(), storeName, () =>
-//     displayData(db, getEdit)
-//   );
-// });
+document.querySelector("#btn-cancel").addEventListener("click", () => {
+  emptyValue();
+  changeVisibleOrder(false);
+});
+
+document.querySelector("#btn-create").addEventListener("click", () => {
+  addData(db, getInputValue(), storeName, () => displayData(db, getEdit));
+});
+
 document.querySelector("#btn-update").addEventListener("click", onUpdate);
 
 document.addEventListener("DOMContentLoaded", initialize);
